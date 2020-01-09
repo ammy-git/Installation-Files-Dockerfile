@@ -1,0 +1,18 @@
+--- # task yml
+  - hosts: node
+    user: ansadmin
+    become: yes
+    connection: ssh
+
+    tasks:
+
+      - name: remove stopped docker container
+        command: docker rm -f simple-devops-container
+        ignore_errors: yes
+
+      - name: remove current docker image
+        command: docker rmi ammydock/simple-devops-image:latest
+        ignore_errors: yes
+
+      - name: creating docker image using docker command
+        command: docker run -d --name simple-devops-container -p 8080:8080 ammydock/simple-devops-image:latest
