@@ -1,0 +1,49 @@
+--- # task yml
+- hosts: local
+  user: ansadmin
+  become: yes
+  connection: ssh
+
+  tasks:
+    - name: Install PIP
+      yum: name=python-pip state=present
+
+    - name: Install lxml
+      pip: name=lxml
+
+    - name: Add a
+      maven_artifact:
+        group_id: Mit
+        artifact_id: 20191031144740
+        extension: war
+        version: 2
+        repository_url: 'http://13.234.136.71:8081/repository/mytest/'
+        username: admin
+        password: admin123
+        dest: /opt/20191031144740-2.war
+
+--- # task yml
+- hosts: local
+  user: ansadmin
+  become: yes
+  connection: ssh
+
+  tasks:
+    - name: Install PIP
+      yum: name=python-pip state=present
+
+    - name: Install lxml
+      pip: name=lxml
+
+    - name: Add a
+      maven_artifact:
+        group_id: Mit
+        artifact_id: 2
+        extension: war
+        version: 1.0
+        repository_url: 'http://13.234.136.71:8081/repository/mytest/'
+        username: admin
+        password: admin123
+        dest: /opt/2-1.0.war
+
+
