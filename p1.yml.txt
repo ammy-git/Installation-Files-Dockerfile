@@ -1,0 +1,28 @@
+--- # task yml
+  - hosts: local
+    user: ansadmin
+    become: yes
+    connection: ssh
+
+    tasks:
+      - name: Remove old image
+        command: docker rmi simple-devops-image
+        ignore_errors: yes
+
+      - name: building docker image
+        command: sudo docker build -t simple-devops-image .
+        args:
+          chdir: /opt/ansible
+
+      - name: create tag to image
+        command: docker tag simple-devops-image ammydock/simple-devops-image:latest
+
+      - name: docker hub credentials
+        command: docker login -u "ammydock" -p "password@2me" docker.io
+
+      - name: push image on to dockerhub
+        command: docker push ammydock/simple-devops-image:latest
+
+      - name: remove docker images form ansible server
+        command: docker rmi simple-devops-image:latest ammydock/simple-devops-image:latest
+        ignore_errors: yes
